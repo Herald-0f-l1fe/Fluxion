@@ -59,11 +59,11 @@ flux_errors create_block(const node_t* node, FILE*  fp)
         break;
     
     case TYPE_OP:
-        fprintf(fp, "n%p [shape=triangle, label =\"value = %c\",", node, node->value.ch);
+        fprintf(fp, "n%p [shape=triangle, label =\"value = %s\",", node, operations[node->value.op].str);
         break;  
     
     case TYPE_VAR:
-        fprintf(fp, "n%p [shape=Mrecord, label =\"value = %g\",", node, node->value.d);
+        fprintf(fp, "n%p [shape=Mrecord, label =\"value = %s\",", node, node->value.str);
         break;
 
     default:
@@ -143,4 +143,3 @@ void free_file(const char* name)
     FILE* fp = fopen(name, "w");
     fclose(fp);
 }
-

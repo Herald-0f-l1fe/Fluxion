@@ -1,9 +1,9 @@
 digraph G {
 splines=ortho
 node [style=filled, fillcolor=red, fontcolor=white, shape=octagon]
-n0x503000000070 [shape=Mrecord, label ="value = 8",style=filled, fontcolor="black", fillcolor="white"];
-n0x503000000040 [shape=triangle, label ="value = +",style=filled, fontcolor="black", fillcolor="white"];
-n0x5030000000a0 [shape=circle, label ="value = 2.5", style=filled, fontcolor="black", fillcolor="white"];
-n0x503000000040->n0x503000000070[color="green"]
-n0x503000000040->n0x5030000000a0[color="green"]
+n0x503000000400 [shape=circle, label ="value = 7", style=filled, fontcolor="black", fillcolor="white"];
+n0x503000000460 [shape=triangle, label ="value = +",style=filled, fontcolor="black", fillcolor="white"];
+n0x503000000430 [shape=circle, label ="value = 8", style=filled, fontcolor="black", fillcolor="white"];
+n0x503000000460->n0x503000000400[color="green"]
+n0x503000000460->n0x503000000430[color="green"]
 }

@@ -1,5 +1,18 @@
-#include "Functions.h"
+#include "Headers/Functions.h"
 #include "FLUX_Dump.h"
+#include <cmath>
+#include "FLUX_file_work.h"
+
+#define calc_right node_calculator(node->right, str_vars)\
+
+#define calc_left node_calculator(node->left, str_vars)
+
+#define BIN_OPERATION(ope)                               \
+    return node_calculator(node->left, str_vars) ope node_calculator(node->right, str_vars);      \
+
+#define UN_OPERATION(name)                                  \
+    return name(node_calculator(node->right, str_vars));    \
+
 
 flux_errors flux_creator(tree_t* flux)
 {   
@@ -9,26 +22,42 @@ flux_errors flux_creator(tree_t* flux)
     flux->root = (node_t*) calloc(1, sizeof(node_t));
     
     free_file("flux_dump.html");
+    var_t* str_vars = (var_t*) calloc(var_size, sizeof(var_t));
+    vars_init(str_vars);
+    flux->vars = str_vars;
+    assert(str_vars);
+
+
     if (flux->canary_l != CANARY_L || flux->canary_r != CANARY_R)
         return FLUX_CANARY_DIED;
+
     if (flux->size != 0)
         return FLUX_NO_VALID_SIZE;
+
     if (flux->root == nullptr)
         return FLUX_NO_ROOT;
     
     return FLUX_OK;
 }
 
-flux_errors flux_destructor(node_t* root)
+flux_errors node_destructor(node_t* root)
 {
     assert(root);
     if (root->left != NULL)
-        flux_destructor(root->left);
+        node_destructor(root->left);
 
     if (root->right != NULL)
-        flux_destructor(root->right);
+        node_destructor(root->right);
+    
     free(root);
 
+    return FLUX_OK;
+}
+
+flux_errors flux_destructor(tree_t* flux)
+{
+    node_destructor(flux->root);
+    vars_destructor(flux->vars);
     return FLUX_OK;
 }
 
@@ -39,20 +68,10 @@ void buffer_cleaner()
 }
 
 
-// void clean_stack(stack_t* stack)
-// {
-//     assert(stack);
-//     void* ptr  = 0;
-//     while(stack->size > 0)
-//     {
-//         stack_pop(stack, &ptr);
-//         free(ptr);
-//     }
-// }
-
-void flux_calculator(tree_t tree, var_t* str_vars)
+void flux_calculator(tree_t tree)
 {
-    double ret = node_calculator(tree.root, str_vars);
+    assert(tree.vars);
+    double ret = node_calculator(tree.root, tree.vars);
     printf("Calculator answer is %g\n", ret);
 }
 
@@ -73,26 +92,8 @@ double node_calculator(node_t* node, var_t* str_vars)
         break;
         
     case TYPE_OP:
-    {
-        switch (node->value.ch)
-        {
-        case '+':
-            OPERATION(+)
-            break;
-        
-        case '-':
-            OPERATION(-);
-            
-        case '*':
-            OPERATION(*);
+        return operations[node->value.op].func(node->value.op, node, str_vars);
 
-        case '/':
-            OPERATION(/);
-
-        default:
-            break;
-        }
-    }
 
     default:
         break;
@@ -113,30 +114,31 @@ var_t* vars_init(var_t* str_vars)
 
         
         if (str_vars[i].name == nullptr)
-            printf("NULLPTR to name of label");
+            printf("NULLPTR to name of var\n");
     }
 
-    
+    assert(str_vars);    
     return str_vars;
 }
 
 flux_errors var_create(char* name, var_t* str_vars)
 {
+    
     if (str_vars == 0)
     {
         printf("Nullptr to labels arr \n");
         return FLUX_ERROR;
     }
-    
+    double var_check_res = var_check(name, str_vars);
     for (size_t i = 0; i < var_size; i++)
     {
-        if (str_vars[i].name[0] == '\0' && var_check(name, str_vars) == 0xDEADBEEE) 
+        if (str_vars[i].name[0] == '\0' && var_check_res == 0xDEADBEEE) 
         {
             ON_DEBUG(printf("VAR %s IN ARR\n", str_vars[i].name);)
 
             strcpy(str_vars[i].name, name);
             printf("Please give value of %s\n", name);
-            scanf("%g", &(str_vars[i].val));
+            scanf("%lg", &(str_vars[i].val));
 
             return FLUX_OK;
         }
@@ -148,6 +150,8 @@ flux_errors var_create(char* name, var_t* str_vars)
 
 double var_check(char* name, var_t* str_vars)
 {
+    assert(str_vars);
+    assert(name);
     for (size_t i = 0; i < var_size; i++)
     {
         if (!strcmp(str_vars[i].name, name))
@@ -168,91 +172,123 @@ void vars_destructor(var_t* str_vars)
     free(str_vars);
 }
 
-node_t* node_read(char** cur_pos)
+
+double bin_operation(int op, node_t* node, var_t* str_vars)
 {
-    char ans[100] = {};
-    skip_spaces(cur_pos);
-    if (**cur_pos == '(')
+    switch(op)
     {
-        node_t* new_node = (node_t*) calloc (1, sizeof(node_t));
-        (*cur_pos)++;
+        case FLUX_ADD:
+            ON_DEBUG(printf("+");)
+            BIN_OPERATION(+);
+            break;
 
-        skip_spaces(cur_pos);
-        get_val(cur_pos);
-
-
-        skip_spaces(cur_pos);
-        if (**cur_pos == '(')
-            new_node->left = node_read(cur_pos);
-
-        else
-        {
-            sscanf(*cur_pos, "%s", ans);
-            ON_DEBUG(printf("ans is \"%s\"\n", ans);)
-            if (!strcmp(ans, "nil"))
-            {
-                *cur_pos += 4;
-                skip_spaces(cur_pos);
-            }
-
-            else
-                printf(RED "AK_ERROR in with node in graph left leaf is bad\n" RESET);
-        }
-
-        if (**cur_pos == '(')
-            new_node->right = node_read(cur_pos);
-
-        else
-        {
-            sscanf(*cur_pos, "%s", ans);
-            if (!strcmp(ans, "nil"))
-            {
-                *cur_pos += 4;
-                skip_spaces(cur_pos);
-            }
-            else
-                printf(RED "AK_ERROR in file with graph\n" RESET);
-        }
+        case FLUX_SUB:
+            ON_DEBUG(printf("-");)
+            BIN_OPERATION(-);
+            break;
         
-        if (**cur_pos == ')')
+        case FLUX_MUL:
+            ON_DEBUG(printf("*");)
+            BIN_OPERATION(*);
+            break;
+        
+        case FLUX_DIV:
+            ON_DEBUG(printf("/");)
+            BIN_OPERATION(/);
+            break;
+        
+        default:
+            return NAN;
+
+    }
+}
+
+double pow_operation(int op, node_t* node, var_t* str_vars)
+{
+        return pow(node_calculator(node->left, str_vars), node_calculator(node->right, str_vars));
+}
+
+double un_operation(int op, node_t* node, var_t* str_vars)
+{
+    switch (op)
+    {
+        case FLUX_SQVRT:
+            UN_OPERATION(sqrt);
+        
+        case FLUX_SIN:
+            UN_OPERATION(sin);
+
+        case FLUX_COS:
+            UN_OPERATION(cos);
+
+        case FLUX_TG:
+            UN_OPERATION(tan);
+        
+        case FLUX_SH:
+            return (exp(calc_right) - exp(-calc_right))/2;
+
+        case FLUX_CH:   
+            return (exp(calc_right) + exp(-calc_right))/2;
+    
+        default:
+            return NAN;
+    }
+
+    return NAN;
+}
+    
+double ln_operation(int op, node_t* node, var_t* str_vars)
+{
+        return log(node_calculator(node->right, str_vars));
+}
+
+double log_operation(int op, node_t* node, var_t* str_vars)
+{
+    return log(node_calculator(node->left, str_vars)) / log(node_calculator(node->right, str_vars));
+}
+
+double e_operation(int op, node_t* node, var_t* str_vars)
+{
+    return exp(node_calculator(node->right, str_vars));
+}
+
+double flux_simpler(node_t* node)
+{
+    switch (node->type)
+    {
+    case TYPE_NUM:
+        return node->value.d;
+        break;
+    
+    case TYPE_OP:
+    {
+        double lnode = flux_simpler(node->left);
+        double rnode = flux_simpler(node->right);
+        if (lnode != NAN && rnode != NAN)
         {
-            ON_DEBUG(printf(GREEN "GET NODE\n" RESET);)
-            (*cur_pos)++;
-            skip_spaces(cur_pos);
-            return new_node;
+            
+            node->type = TYPE_NUM;
+            node->value.d = rnode + lnode;
+            free(node->left);
+            free(node->right);
+            node->left = NULL;
+            node->right = NULL;
         }
         else
-            printf(RED "NO \")\" in the end of node\n" RESET);
-    }
+            return NAN;
+        break;
+    };
 
-    else 
-    {
-        printf(RED "NO \"(\" in the end of node\n" RESET);
+    case TYPE_VAR:
+        return NUM;
+        break;
+
+    default:
+        break;
     }
-    return 0;
+        
+
+
 }
 
-char* get_val(char** cur_pos)
-{
-    char* ptr1 = 0;
-    if (**cur_pos == '\"')
-    {
-        (*cur_pos)++;
-        ptr1 = *cur_pos;
-        char* ptr2 = strchr(*cur_pos, '\"');
-        *ptr2 = '\0';
-        *cur_pos += ptr2-ptr1 + 1;
-    }   
-
-    else 
-    {
-        printf("AK_ERROR in get node name\n");
-    }
-    return ptr1;
-}
-
-void skip_spaces(char** cur_pos)
-{
-    while (isspace(**cur_pos))
-        (*cur_pos)++;
-}
+node_t* 
