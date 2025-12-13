@@ -1,4 +1,3 @@
-# Флаги для WSL (Windows Subsystem for Linux)
 CXX = g++
 CXXFLAGS = -D_DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextra -I/usr/include/ \
            -Weffc++ -Wcast-align -Wcast-qual -Wchar-subscripts \
@@ -8,7 +7,7 @@ CXXFLAGS = -D_DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextra -I/usr/include/ \
            -Wpointer-arith -Winit-self -Wredundant-decls -Wshadow \
            -Wsign-conversion -Wstrict-null-sentinel -Wstrict-overflow=2 \
            -Wsuggest-final-methods -Wsuggest-final-types -Wsuggest-override \
-           -Wswitch-default -Wswitch-enum -Wundef -Wunreachable-code \
+           -Wswitch-default -Wundef -Wunreachable-code \
            -Wunused -Wuseless-cast -Wvariadic-macros \
            -Wno-missing-field-initializers -Wno-narrowing \
            -Wno-old-style-cast -Wstack-protector -fcheck-new \
@@ -18,45 +17,48 @@ CXXFLAGS = -D_DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextra -I/usr/include/ \
            -fsanitize-address-use-after-scope \
            -fno-optimize-sibling-calls
 
-INCLUDE_DIRS = -IHeaders -Icommon
-# Расширенные флаги для линковки с AddressSanitizer
+INCLUDE_DIRS = -IHeaders -I/common
+
 LDFLAGS = -pie -fPIE \
           -fsanitize=address,undefined,leak,bounds \
           -fsanitize-address-use-after-scope \
           -fno-optimize-sibling-calls
 
 TARGET = fluxion
-OBJS = flux_dump.o fluxion.o flux_tree_func.o FLUX_FILE_read.o FLUX_file_work.o Differentiation_functions.o calculator.o
-
+OBJS = $(PTO)flux_dump.o $(PTO)fluxion.o $(PTO)flux_tree_func.o $(PTO)FLUX_FILE_read.o $(PTO)FLUX_file_work.o $(PTO)Differentiation_functions.o $(PTO)calculator.o
+PTS = Source/
+PTO = Obj/
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
 	$(CXX) $(OBJS) $(CXXFLAGS) $(LDFLAGS) -o $(TARGET)
 
-flux_dump.o: flux_dump.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c flux_dump.cpp -o flux_dump.o
+$(PTO)flux_dump.o: $(PTS)flux_dump.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c $(PTS)flux_dump.cpp -o $(PTO)flux_dump.o
 
-fluxion.o: fluxion.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c fluxion.cpp -o fluxion.o
+$(PTO)fluxion.o: $(PTS)fluxion.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c $(PTS)fluxion.cpp -o $(PTO)fluxion.o
 
-flux_tree_func.o: flux_tree_func.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c flux_tree_func.cpp -o flux_tree_func.o
+$(PTO)flux_tree_func.o: $(PTS)flux_tree_func.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c $(PTS)flux_tree_func.cpp -o $(PTO)flux_tree_func.o
 
-FLUX_FILE_read.o: FLUX_FILE_read.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c FLUX_FILE_read.cpp -o FLUX_FILE_read.o
+$(PTO)FLUX_FILE_read.o: $(PTS)FLUX_FILE_read.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c $(PTS)FLUX_FILE_read.cpp -o $(PTO)FLUX_FILE_read.o
 
-FLUX_file_work.o: FLUX_file_work.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c FLUX_file_work.cpp -o FLUX_file_work.o
+$(PTO)FLUX_file_work.o: $(PTS)FLUX_file_work.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c $(PTS)FLUX_file_work.cpp -o $(PTO)FLUX_file_work.o
 
-Differentiation_functions.o: Differentiation_functions.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c Differentiation_functions.cpp -o Differentiation_functions.o
+$(PTO)Differentiation_functions.o: $(PTS)Differentiation_functions.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c $(PTS)Differentiation_functions.cpp -o $(PTO)Differentiation_functions.o
 
-calculator.o: calculator.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c calculator.cpp -o calculator.o
+$(PTO)calculator.o: $(PTS)calculator.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c $(PTS)calculator.cpp -o $(PTO)calculator.o
     
 clean:
-	rm -rf *.o *.exe *.dmp *.log *.log.dmp *.exe.log.dmp $(TARGET)
+	rm -rf $(PTO)*.o *.exe *.dmp *.log *.log.dmp *.exe.log.dmp $(TARGET)
 
+png_clean:
+	rm -rf  photo/*.png
 # Дополнительная цель для запуска с переменными окружения ASAN
 run: $(TARGET)
 	ASAN_OPTIONS=detect_stack_use_after_return=1:check_initialization_order=1:detect_invalid_pointer_pairs=2:strict_string_checks=1 ./$(TARGET)
@@ -65,4 +67,4 @@ run: $(TARGET)
 debug: $(TARGET)
 	ASAN_OPTIONS=verbosity=1:log_path=asan.log ./$(TARGET)
 
-.PHONY: all clean run debug
+.PHONY: all clean run debug png_clean

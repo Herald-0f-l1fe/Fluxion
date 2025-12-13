@@ -15,5 +15,9 @@ FILE* open_file(const char* file_name);
 void create_html(char* new_answer, char* question);
 void free_file(const char* name);
 
+void latex_dump(tree_t* tree);
+void node_tex(node_t* node, FILE* fp);
+void open_tex();
+void close_tex();
 
 #endif

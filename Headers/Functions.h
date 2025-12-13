@@ -14,7 +14,23 @@ flux_errors var_create(char* name, var_t* str_vars);
 double var_check(char* name, var_t* str_vars);
 void vars_destructor(var_t* str_vars);
 
+
+double const_simpler(node_t* node);
+void simple_tree(tree_t* tree);
+void op_simpler(node_t* node);
+void simple_node(node_t** node);
+void swap_nodes(node_t** node, node_t** child);
+
+
+size_t get_node_size(node_t* root);
+size_t get_tree_size(tree_t* tree);
+void set_parents(node_t* node, node_t* parent);
+
 void buffer_cleaner();
 static size_t var_size = 5; 
+void op_simpl_add_sub(node_t** node);
+void op_simpl_mul(node_t** node);
+void op_simpl_div(node_t** node);
+
 #endif
 

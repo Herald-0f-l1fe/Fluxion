@@ -1,1 +1,1 @@
-( * ( x nil nil ) ( + ( y nil nil ) ( x nil nil )))
+cos(x)*sin(x)$

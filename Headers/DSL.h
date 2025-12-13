@@ -18,7 +18,7 @@
 
 
 
-#define EXP_(node_right) new_node(TYPE_OP, "e", NULL, node_right)
+#define EXP_(node_right) new_node(TYPE_OP, "exp", NULL, node_right)
 #define LN_(node_right)  new_node(TYPE_OP, "ln", NULL, node_right)
 #define LOG_(node_left, node_right) new_node(TYPE_OP, "log", node_left, node_right)
 
@@ -32,9 +32,9 @@
 
 
 #define CH_(node_right) new_node(TYPE_OP, "cosh", NULL, node_right)
-#define SH_(node_right) new_node(TYPE_OP, "sinh", NULL, node_right)
-#define TANH_(node_right) new_node(TYPE_OP, "tanh", NULL, node_right)
-#define COTH_(node_right) new_node(TYPE_OP, "coth", NULL, node_right)
+#define SH_(node_right) new_node(TYPE_OP, "sh", NULL, node_right)
+#define TANH_(node_right) new_node(TYPE_OP, "th", NULL, node_right)
+#define COTH_(node_right) new_node(TYPE_OP, "ch", NULL, node_right)
 
 
 
@@ -45,11 +45,12 @@
 
 
 
-#define ARCSINH_(node_right) new_node(TYPE_OP, "arcsinh", NULL, node_right)
-#define ARCCOSH_(node_right) new_node(TYPE_OP, "arccosh", NULL, node_right)
-#define ARCTANH_(node_right) new_node(TYPE_OP, "arctanh", NULL, node_right)
-#define ARCCOTH_(node_right) new_node(TYPE_OP, "arccoth", NULL, node_right)
+#define ARCSINH_(node_right) new_node(TYPE_OP, "arcsh", NULL, node_right)
+#define ARCCOSH_(node_right) new_node(TYPE_OP, "arcch", NULL, node_right)
+#define ARCTANH_(node_right) new_node(TYPE_OP, "arcth", NULL, node_right)
+#define ARCCOTH_(node_right) new_node(TYPE_OP, "arccth", NULL, node_right)
 
+#define node_is_number(node, number) node->type == TYPE_NUM && DOUBLE_EQ(node->value.d, number)
 
 
 #endif
