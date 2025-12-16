@@ -25,7 +25,7 @@ LDFLAGS = -pie -fPIE \
           -fno-optimize-sibling-calls
 
 TARGET = fluxion
-OBJS = $(PTO)flux_dump.o $(PTO)fluxion.o $(PTO)flux_tree_func.o $(PTO)FLUX_FILE_read.o $(PTO)FLUX_file_work.o $(PTO)Differentiation_functions.o $(PTO)calculator.o
+OBJS = $(PTO)flux_dump.o $(PTO)fluxion.o $(PTO)flux_tree_func.o $(PTO)FLUX_FILE_read.o $(PTO)FLUX_file_work.o $(PTO)Differentiation_functions.o $(PTO)calculator.o $(PTO)SimplifyTree.o $(PTO)GNUPlot.o
 PTS = Source/
 PTO = Obj/
 all: $(TARGET)
@@ -53,7 +53,12 @@ $(PTO)Differentiation_functions.o: $(PTS)Differentiation_functions.cpp
 
 $(PTO)calculator.o: $(PTS)calculator.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c $(PTS)calculator.cpp -o $(PTO)calculator.o
-    
+
+$(PTO)SimplifyTree.o: $(PTS)SimplifyTree.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c $(PTS)SimplifyTree.cpp -o $(PTO)SimplifyTree.o
+
+$(PTO)GNUPlot.o: $(PTS)GNUPlot.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) -c $(PTS)GNUPlot.cpp -o $(PTO)GNUPlot.o    
 clean:
 	rm -rf $(PTO)*.o *.exe *.dmp *.log *.log.dmp *.exe.log.dmp $(TARGET)
 

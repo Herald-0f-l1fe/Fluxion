@@ -1,91 +1,29 @@
 digraph G {
 splines=ortho
 node [style=filled, fillcolor=red, fontcolor=white, shape=octagon]
-n0x5040000019d0 [shape=circle, label ="1", style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001a10 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001990 [shape=triangle, label ="cos",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001950 [shape=Mrecord, label ="'x'",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001a50 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
-n0x5040000018d0 [shape=circle, label ="-1", style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001b90 [shape=triangle, label ="+",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001ad0 [shape=triangle, label ="sin",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001b10 [shape=Mrecord, label ="'x'",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001b50 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001a90 [shape=circle, label ="0", style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001bd0 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001810 [shape=triangle, label ="sin",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001850 [shape=Mrecord, label ="'x'",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001e90 [shape=triangle, label ="+",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001d90 [shape=triangle, label ="sin",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001dd0 [shape=Mrecord, label ="'x'",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001d50 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001e10 [shape=circle, label ="-1", style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001e50 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001cd0 [shape=circle, label ="1", style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001d10 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001c90 [shape=triangle, label ="cos",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001c50 [shape=Mrecord, label ="'x'",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001ed0 [shape=triangle, label ="+",style=filled, fontcolor="black", fillcolor="white"];
-n0x5040000013d0 [shape=circle, label ="1", style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001410 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001390 [shape=triangle, label ="sin",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001350 [shape=Mrecord, label ="'x'",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001490 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001450 [shape=circle, label ="-1", style=filled, fontcolor="black", fillcolor="white"];
-n0x5040000014d0 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001290 [shape=triangle, label ="cos",style=filled, fontcolor="black", fillcolor="white"];
-n0x5040000012d0 [shape=Mrecord, label ="'x'",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001790 [shape=triangle, label ="+",style=filled, fontcolor="black", fillcolor="white"];
-n0x5040000016d0 [shape=triangle, label ="cos",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001710 [shape=Mrecord, label ="'x'",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001750 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
-n0x5040000015d0 [shape=circle, label ="1", style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001610 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001590 [shape=triangle, label ="sin",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001550 [shape=Mrecord, label ="'x'",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001690 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001650 [shape=circle, label ="-1", style=filled, fontcolor="black", fillcolor="white"];
-n0x504000001ed0->n0x504000001e90[color="green"]
-n0x504000001e90->n0x504000001bd0[color="green"]
-n0x504000001bd0->n0x504000001b90[color="green"]
-n0x504000001b90->n0x504000001a50[color="green"]
-n0x504000001a50->n0x504000001a10[color="green"]
-n0x504000001a10->n0x5040000019d0[color="green"]
-n0x504000001a10->n0x504000001990[color="green"]
-n0x504000001990->n0x504000001950[color="green"]
-n0x504000001a50->n0x5040000018d0[color="green"]
-n0x504000001b90->n0x504000001b50[color="green"]
-n0x504000001b50->n0x504000001ad0[color="green"]
-n0x504000001ad0->n0x504000001b10[color="green"]
-n0x504000001b50->n0x504000001a90[color="green"]
-n0x504000001bd0->n0x504000001810[color="green"]
-n0x504000001810->n0x504000001850[color="green"]
-n0x504000001e90->n0x504000001e50[color="green"]
-n0x504000001e50->n0x504000001d50[color="green"]
-n0x504000001d50->n0x504000001d90[color="green"]
-n0x504000001d90->n0x504000001dd0[color="green"]
-n0x504000001d50->n0x504000001e10[color="green"]
-n0x504000001e50->n0x504000001d10[color="green"]
-n0x504000001d10->n0x504000001cd0[color="green"]
-n0x504000001d10->n0x504000001c90[color="green"]
-n0x504000001c90->n0x504000001c50[color="green"]
-n0x504000001ed0->n0x504000001790[color="green"]
-n0x504000001790->n0x5040000014d0[color="green"]
-n0x5040000014d0->n0x504000001490[color="green"]
-n0x504000001490->n0x504000001410[color="green"]
-n0x504000001410->n0x5040000013d0[color="green"]
-n0x504000001410->n0x504000001390[color="green"]
-n0x504000001390->n0x504000001350[color="green"]
-n0x504000001490->n0x504000001450[color="green"]
-n0x5040000014d0->n0x504000001290[color="green"]
-n0x504000001290->n0x5040000012d0[color="green"]
-n0x504000001790->n0x504000001750[color="green"]
-n0x504000001750->n0x5040000016d0[color="green"]
-n0x5040000016d0->n0x504000001710[color="green"]
-n0x504000001750->n0x504000001690[color="green"]
-n0x504000001690->n0x504000001610[color="green"]
-n0x504000001610->n0x5040000015d0[color="green"]
-n0x504000001610->n0x504000001590[color="green"]
-n0x504000001590->n0x504000001550[color="green"]
-n0x504000001690->n0x504000001650[color="green"]
+n0x50400000dad0 [shape=triangle, label ="sin",style=filled, fontcolor="black", fillcolor="white"];
+n0x50400000da90 [shape=Mrecord, label ="'x'",style=filled, fontcolor="black", fillcolor="white"];
+n0x50400000dbd0 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
+n0x50400000db90 [shape=circle, label ="-1", style=filled, fontcolor="black", fillcolor="white"];
+n0x50400000dc10 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
+n0x50400000d9d0 [shape=triangle, label ="sin",style=filled, fontcolor="black", fillcolor="white"];
+n0x50400000da10 [shape=Mrecord, label ="'x'",style=filled, fontcolor="black", fillcolor="white"];
+n0x50400000de50 [shape=triangle, label ="+",style=filled, fontcolor="black", fillcolor="white"];
+n0x50400000dd90 [shape=triangle, label ="cos",style=filled, fontcolor="black", fillcolor="white"];
+n0x50400000ddd0 [shape=Mrecord, label ="'x'",style=filled, fontcolor="black", fillcolor="white"];
+n0x50400000de10 [shape=triangle, label ="*",style=filled, fontcolor="black", fillcolor="white"];
+n0x50400000dcd0 [shape=triangle, label ="cos",style=filled, fontcolor="black", fillcolor="white"];
+n0x50400000dc90 [shape=Mrecord, label ="'x'",style=filled, fontcolor="black", fillcolor="white"];
+n0x50400000de50->n0x50400000dc10[color="green"]
+n0x50400000dc10->n0x50400000dbd0[color="green"]
+n0x50400000dbd0->n0x50400000dad0[color="green"]
+n0x50400000dad0->n0x50400000da90[color="green"]
+n0x50400000dbd0->n0x50400000db90[color="green"]
+n0x50400000dc10->n0x50400000d9d0[color="green"]
+n0x50400000d9d0->n0x50400000da10[color="green"]
+n0x50400000de50->n0x50400000de10[color="green"]
+n0x50400000de10->n0x50400000dd90[color="green"]
+n0x50400000dd90->n0x50400000ddd0[color="green"]
+n0x50400000de10->n0x50400000dcd0[color="green"]
+n0x50400000dcd0->n0x50400000dc90[color="green"]
 }

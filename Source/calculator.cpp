@@ -176,7 +176,7 @@ node_t* GetVar(char** s, var_t* str_vars)
     char* var = (char*) calloc(20, sizeof(char));
     int n = 0;
     sscanf(*s, "%[a-zA-Z0-9] %n", var, &n);
-    printf(CYAN "%s\n" RESET, var);
+    //printf(CYAN "%s\n" RESET, var);
     (*s) += n;    
     node_t* node = (node_t*) calloc(1, sizeof(node_t));
     node->type = TYPE_VAR;

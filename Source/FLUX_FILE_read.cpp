@@ -6,7 +6,7 @@ char* read_from_file_to_buffer(ssize_t* size, const char* str)
 {
     FILE* fp = fopen(str, "r");
     if (fp == nullptr) 
-        printf("File %s didn't open\n", str);
+        printf(RED "File %s didn't open\n" RESET, str);
 
     *size = finding_file_size(str);
 
@@ -21,7 +21,7 @@ long int finding_file_size(const char* str)
     struct stat file_info = {};
     if (stat(str, &file_info) == 0) 
     {
-        printf("Size of file %ld\n", file_info.st_size);
+        ON_DEBUG(printf("Size of file %ld\n", file_info.st_size);)
     }
     else
     {
@@ -35,7 +35,7 @@ char* filling_the_buffer_with_text(ssize_t size, FILE* fp)
     char* buffer = (char*) calloc((size_t) size + 2, sizeof(char));
     if (buffer == nullptr)
         {
-        printf("Memory for the buffer was not allocated.\n");
+        printf(RED "Memory for the buffer was not allocated.\n" RESET);
         return 0;
         }
     size_t buffer_size = fread(buffer, sizeof(char), (size_t) size, fp);
@@ -54,8 +54,8 @@ char* tree_read (tree_t* ak, const char* file_name)
     node_destructor(ak->root);
 
     ak->root = GetG(&buffer, ak->vars);
-    printf(CYAN "READ EXAMPLE\n" RESET);
-    printf("flux->root after read = %p \n", ak->root);
+    ON_DEBUG(printf(CYAN "READ EXAMPLE\n" RESET);)
+    ON_DEBUG(printf("flux->root after read = %p \n", ak->root);)
     
     return ptr;
 }
@@ -86,9 +86,9 @@ size_t type_def(const char* str, node_t* new_node)
         }
     }
 
-    if (!strcasecmp(str, "0") || atof(str) != 0)
+    if (!strcasecmp(str, "0") || atof(str) != 0 || !strcasecmp(str, "-0"))
     {
-        printf("it is Number\n");
+        ON_DEBUG(printf("it is Number\n");)
         new_node->type = TYPE_NUM;
         new_node->value.d = atof(str);
         return 0;
@@ -135,7 +135,7 @@ node_t* node_read(char** cur_pos)
             }
 
             else
-                printf(RED "AK_ERROR in with node in graph left leaf is bad\n" RESET);
+                printf(RED "FLUX_ERROR in with node in graph left leaf is bad\n" RESET);
         }
 
         if (**cur_pos == '(')

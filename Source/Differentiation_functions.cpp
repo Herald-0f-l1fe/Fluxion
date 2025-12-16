@@ -1,5 +1,7 @@
 #include "Differentiation_functions.h"
+#include "SimplifyTree.h"
 #include <cmath>
+#include <limits.h>
 
 node_t* copy_node(node_t* cnode)
 {
@@ -26,11 +28,10 @@ node_t* diff_tree(tree_t* flux, const char* var, size_t n)
         ans = dif_node(tree->root, var);
         node_destructor(tree->root);
         tree->root = ans;
-        graph_dump(tree);
         simple_tree(tree);
 
     }
-
+    graph_dump(tree);
     free(tree);
     return ans;
 }
@@ -185,7 +186,7 @@ node_t* dif_pow(node_t* node, const char* var)
     return MUL_(dif_node(pow, var), EXP_(pow));
 }
 
-node_t* teylor(tree_t* flux, double x0, size_t n)
+node_t* taylor(tree_t* flux, double x0, size_t n)
 {
     tree_t tree = {};     
     tree.root = new_node(TYPE_NUM, "0", NULL, NULL);
@@ -196,7 +197,7 @@ node_t* teylor(tree_t* flux, double x0, size_t n)
     for (size_t i = 0; i < n; i++)
     {
         node_t* fluxion = diff_tree(flux, "x", i);
-        sprintf(s, "%g", node_calculator(fluxion, flux->vars));
+        sprintf(s, "%g", node_calculator(fluxion, flux->vars)/fact(i + 1));
         node_destructor(fluxion);
         sprintf(index, "%lu", i);
         node_t* koef = new_node(TYPE_NUM, s, NULL, NULL);
@@ -206,8 +207,31 @@ node_t* teylor(tree_t* flux, double x0, size_t n)
         node_t* node = MUL_(koef, POW_(near_var, new_node(TYPE_NUM, index, NULL, NULL)));
         tree.root = ADD_(tree.root, node);
         simple_tree(&tree);
-        graph_dump(&tree);
+        //graph_dump(&tree);
         latex_dump(&tree);
     }
     return tree.root;
+}
+
+unsigned long long int fact(int n)
+{
+    if (n < 0)
+    {
+        printf(RED "negative number in factorial\n" RESET);
+        return 0;
+    }
+    unsigned long long int result = 1;
+
+    for (int i = 1; i < n; i++)
+    {
+        if (result < ULLONG_MAX / i)
+            result *= i;
+        else
+        {
+            printf(RED "Overflow ull limit\n", RESET);
+            return 0;
+        }
+    }   
+
+    return result;
 }
